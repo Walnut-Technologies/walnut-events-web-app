@@ -1,0 +1,44 @@
+<section class="container">
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+        <div class="container">
+            <div class="row gx-lg-5 align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="my-5 display-3 fw-bold ls-tight">
+                        The best offer <br />
+                        <span class="text-primary">for your events</span>
+                    </h1>
+                    <p style="color: hsl(217, 10%, 50.8%)">
+                        Walnut Technologies is a company that offers the best services for your events. We have the best team of professionals who will make your event a success.
+                    </p>
+                </div>
+
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="card">
+                        <div class="card-body py-5 px-md-5">
+                            <h2 class="h3">Login</h2>
+                            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                <!-- Email input -->
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="form3Example3">Email address</label>
+                                    <input type="email" id="form3Example3" class="form-control" formControlName="username"/>
+                                </div>
+
+                                <!-- Password input -->
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="form3Example4">Password</label>
+                                    <input type="password" id="form3Example4" class="form-control" formControlName="password"/>
+                                </div>
+
+                                <!-- Submit button -->
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                                    class="btn btn-primary btn-block mb-4">
+                                    Sign up
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
