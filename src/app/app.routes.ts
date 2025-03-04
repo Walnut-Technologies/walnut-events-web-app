@@ -6,13 +6,13 @@ import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'dashboard', component: HomeComponent, canActivate: [authGuard] },
-    { path: '**', redirectTo: 'login' }
+  // { path: 'login', component: LoginComponent },
+  // { path: 'dashboard', component: HomeComponent, canActivate: [authGuard] },
+  // { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
