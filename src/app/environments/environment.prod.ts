@@ -4,7 +4,7 @@
 
 import { EnvironmentConfiguration } from '../models/environment-configuration';
 
-const serverUrl = 'https://lsc-expensetracker-api.azurewebsites.net/api';
+const serverUrl = 'https://localhost:44334';
 
 // The list of file replacements can be found in `angular.json`.
 export const environment: EnvironmentConfiguration = {
@@ -15,16 +15,16 @@ export const environment: EnvironmentConfiguration = {
     userProfile: 'user-profiles',
   },
   adb2cConfig: {
-    clientId: '2b9d74de-7aad-402c-b912-b653574516ee',
+    clientId: 'dd11c48c-4892-4571-8f2f-b9e71197c38d',
     readScopeUrl:
-      'https://karthiktechworld.onmicrosoft.com/expensetracker/api/Expense.Read',
+      'https://eventsAzureb2c.onmicrosoft.com/dev/eventswalnut/api/Events.Read',
     writeScopeUrl:
-      'https://karthiktechworld.onmicrosoft.com/expensetracker/api/Expense.Write',
+      'https://eventsAzureb2c.onmicrosoft.com//dev/eventswalnut/api/Events.Write',
     scopeUrls: [
-      'https://karthiktechworld.onmicrosoft.com/expensetracker/api/Expense.Read',
-      'https://karthiktechworld.onmicrosoft.com/expensetracker/api/Expense.Write',
+      'https://eventsAzureb2c.onmicrosoft.com/dev/eventswalnut/api/Events.Read',
+      'https://eventsAzureb2c.onmicrosoft.com/dev/eventswalnut/api/Events.Write',
     ],
-    apiEndpointUrl: 'https://lsc-expensetracker-api.azurewebsites.net/api',
+    apiEndpointUrl: 'https://localhost:44334',
   },
   cacheTimeInMinutes: 30,
 };
