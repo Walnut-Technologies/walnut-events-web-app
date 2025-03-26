@@ -1,0 +1,89 @@
+/* Estilos generales */
+html, body, app-root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #0f1624; /* Fondo oscuro */
+    color: white;
+  }
+  
+  /* Contenedor principal */
+  .layout-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar - Menú lateral */
+  .sidebar {
+    width: 250px;
+    background-color: #111827; /* Azul oscuro */
+    color: #ffffff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Estilo de los enlaces en el sidebar */
+  .sidebar a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out;
+    font-weight: 500;
+  }
+  
+  .sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar a.active {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Iconos en el menú */
+  .sidebar a i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  /* Contenido principal */
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #0f1624;
+    overflow: auto;
+  }
+  
+  /* Navbar superior */
+  .navbar {
+    background-color: transparent;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+  }
+  
+  .navbar h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Imagen de usuario */
+  .user-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .user-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
