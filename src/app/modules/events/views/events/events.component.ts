@@ -50,9 +50,8 @@ export class EventsComponent implements OnInit, AfterViewInit {
 
   async getEvents() {
     try {
-      // this.events = await this.eventsService.getEvents();
-      // this.dataSource.data = this.events;
-      this.dataSource.data = [];
+      this.events = await this.eventsService.getEvents();
+      this.dataSource.data = this.events;
     } catch (error) {
       console.error('Error loading surveys:', error);
     }
