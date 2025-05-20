@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 import { EnvironmentConfiguration } from '../models/environment-configuration';
-const serverUrl = 'https://localhost:44334';
+const serverUrl = 'https://localhost:7187/api';
+
+export const environmentURL = {
+  production: false,
+  _URL_EVENTS: serverUrl + "/Events",
+};
 
 // The list of file replacements can be found in `angular.json`.
 export const environment: EnvironmentConfiguration = {

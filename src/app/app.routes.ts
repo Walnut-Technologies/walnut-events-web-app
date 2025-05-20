@@ -5,6 +5,8 @@ import { authGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 import { LayoutComponent } from './layout/layout.component';
+import { EventsComponent } from './modules/events/views/events/events.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -16,7 +18,8 @@ export const routes: Routes = [
       // { path: 'mensajes', component: MensajesComponent },
       // { path: 'invitaciones', component: InvitacionesComponent },
       // { path: 'lugares', component: LugaresComponent },
-      { path: '', redirectTo: '/home', pathMatch: 'full' }
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: 'events', component: EventsComponent}
     ]
   }
 ];

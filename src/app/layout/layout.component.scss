@@ -3,8 +3,7 @@ html, body, app-root {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: #0f1624; /* Fondo oscuro */
+    background-color: #040E2F; /* Fondo oscuro */
     color: white;
   }
   
@@ -12,6 +11,7 @@ html, body, app-root {
   .layout-container {
     display: flex;
     height: 100vh;
+    background-color: #040E2F;
   }
   
   /* Sidebar - Menú lateral */
@@ -54,7 +54,7 @@ html, body, app-root {
   .main-content {
     flex-grow: 1;
     padding: 20px;
-    background-color: #0f1624;
+    background-color: #040E2F;
     overflow: auto;
   }
   
@@ -85,5 +85,11 @@ html, body, app-root {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  h1 {
+    font-size: 43px;
+    font-weight: 500;
+    color: #fff;
   }
   
