@@ -8,6 +8,7 @@ const serverUrl = 'https://localhost:7187/api';
 export const environmentURL = {
   production: false,
   _URL_EVENTS: serverUrl + "/Events",
+  _URL_AGENCIES: serverUrl + "/Agencies",
 };
 
 // The list of file replacements can be found in `angular.json`.

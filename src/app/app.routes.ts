@@ -6,6 +6,7 @@ import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 import { LayoutComponent } from './layout/layout.component';
 import { EventsComponent } from './modules/events/views/events/events.component';
+import { AgenciesListComponent } from './modules/agencies/views/agencies-list/agencies-list.component';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,8 @@ export const routes: Routes = [
       // { path: 'invitaciones', component: InvitacionesComponent },
       // { path: 'lugares', component: LugaresComponent },
       { path: '', redirectTo: '/home', pathMatch: 'full' },
-      { path: 'events', component: EventsComponent}
+      { path: 'events', component: EventsComponent},
+      { path: 'agencies', component: AgenciesListComponent}
     ]
   }
 ];
