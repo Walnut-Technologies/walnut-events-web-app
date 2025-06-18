@@ -1,0 +1,92 @@
+<div class="all-agencies-container">
+    <div class="title-container">
+        <p class="title">Agencies</p>
+    </div>
+    <div class="main-container">
+        <div class="header">
+            <div class="search-container">
+                <img src="../../../../../assets/search.svg" alt="Search Icon" class="icon">
+                <mat-form-field class="no-line">
+                    <input style="color: white;" matInput (keyup)="applyFilter($event)" placeholder="Buscar" [(ngModel)]="searchValue">
+                </mat-form-field>
+            </div>
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <div>
+                    <button class="btn">
+                        <img src="../../../../../assets/add-event.svg" alt="Add Icon" class="icon">
+                        Agregar nueva agencia
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="container">
+            <mat-table [dataSource]="dataSource" matSort>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de Agencia </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <div class="event-info">
+                            <img [src]="row.logoUrl" alt="Logo de agencia" class="circular-image">
+                            <span>{{ row.name }}</span>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+                </ng-container>
+
+                <!-- registrationDate Column -->
+                <ng-container matColumnDef="registrationDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="wide-column"> Fecha de Registro </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.registrationDate | date: 'dd/MM/yyyy'}} </mat-cell>
+                </ng-container>
+
+                <!-- address Column -->
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Direccion </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.address}} </mat-cell>
+                </ng-container>
+
+                <!-- type Column -->
+                <ng-container matColumnDef="type">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.agencyName}} </mat-cell>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        ...
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef> Accion </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <button mat-button (click)="goToDetails(row)">
+                            <img src="../../../../../assets/view.svg" alt="View Icon" class="icon">
+                        </button>
+                        <button mat-button (click)="goToEdit(row)">
+                            <img src="../../../../../assets/edit.svg" alt="Edit Icon" class="icon">
+                        </button>
+                        <button mat-button (click)="onDelete(row)">
+                            <img src="../../../../../assets/delete.svg" alt="Delete Icon" class="icon">
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+            <mat-paginator class="custom-paginator" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+    </div>
+</div>
