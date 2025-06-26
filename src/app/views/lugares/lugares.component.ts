@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface Lugar {
   nombre: string;
@@ -15,7 +16,7 @@ interface Lugar {
   selector: 'app-lugares',
   templateUrl: './lugares.component.html',
   styleUrls: ['./lugares.component.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [FormsModule]
 })
 export class LugaresComponent implements OnInit {
   busqueda = '';
@@ -41,6 +42,9 @@ export class LugaresComponent implements OnInit {
   ];
 
   lugaresFiltrados: Lugar[] = [];
+
+  constructor(private router: Router) {}
+
 
   ngOnInit(): void {
     this.lugaresFiltrados = this.lugares;
@@ -68,7 +72,7 @@ export class LugaresComponent implements OnInit {
     // Solo cerrar si se hace click en el overlay, no en el modal
     if (event.target === event.currentTarget) {
       this.cerrarModal();
-    }
+    }  
   }
 
   resetearFormulario(): void {
@@ -140,5 +144,9 @@ export class LugaresComponent implements OnInit {
         this.filtrar();
       }
     }
+  }
+
+  abrirAgregarLugar() {
+    this.router.navigate(['/lugares/agregar']);
   }
 }

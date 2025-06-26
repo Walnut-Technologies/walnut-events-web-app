@@ -1,0 +1,132 @@
+
+<div class="form-container agregar-lugar-container">
+  <div class="header">
+    <h2>Lugares > Agregar nuevo</h2>
+  </div>
+
+  <form [formGroup]="lugarForm" (ngSubmit)="onSubmit()" class="lugar-form form-grid">
+
+    <!-- Nombre del lugar -->
+    <div class="form-field full-width">
+      <input
+        type="text"
+        formControlName="nombreLugar"
+        placeholder="Nombre del lugar"
+        class="form-input">
+      </div>
+      @if (lugarForm.get('nombreLugar')?.touched && lugarForm.get('nombreLugar')?.invalid) {
+        <div class="error-msg">
+          El nombre del lugar es requerido.
+        </div>
+      }
+
+
+      <!-- Dirección -->
+      <div class="form-field full-width">
+        <input
+          type="text"
+          formControlName="direccion"
+          placeholder="Dirección"
+          class="form-input">
+        </div>
+        @if (lugarForm.get('direccion')?.touched && lugarForm.get('direccion')?.invalid) {
+          <div class="error-msg">
+            La dirección es requerida.
+          </div>
+        }
+
+        <!-- URL -->
+        <div class="form-field full-width">
+          <input
+            type="url"
+            formControlName="url"
+            placeholder="URL"
+            class="form-input">
+          </div>
+          @if (lugarForm.get('url')?.touched && lugarForm.get('url')?.invalid) {
+            <div class="error-msg">
+              La URL es requerida.
+            </div>
+          }
+
+          <!-- Fila de 3 campos -->
+          <div class="form-row">
+            <div class="form-field">
+              <input
+                type="number"
+                formControlName="capacidadMinima"
+                placeholder="Capacidad mínima"
+                class="form-input">
+              </div>
+              <div class="form-field">
+                <input
+                  type="number"
+                  formControlName="capacidadMaxima"
+                  placeholder="Capacidad máxima"
+                  class="form-input">
+                </div>
+                <div class="form-field">
+                  <input
+                    type="number"
+                    formControlName="precioRenta"
+                    placeholder="Precio de renta"
+                    class="form-input">
+                  </div>
+                </div>
+                
+                <!-- Segunda fila de 3 campos -->
+                <div class="form-row">
+                  <div class="form-field">
+                    <input
+                      type="number"
+                      formControlName="numeroHoras"
+                      placeholder="Número de horas"
+                      class="form-input">
+                    </div>
+                    <div class="form-field">
+                      <input
+                        type="text"
+                        formControlName="tiempoServicio"
+                        placeholder="Tiempo de servicio"
+                        class="form-input">
+                      </div>
+                      <div class="form-field">
+                        <input
+                          type="time"
+                          formControlName="horarioCierre"
+                          placeholder="Horario de cierre"
+                          class="form-input">
+                        </div>
+                      </div>
+
+                      <!-- Número de contacto -->
+                      <div class="form-field half-width">
+                        <input
+                          type="tel"
+                          formControlName="numeroContacto"
+                          placeholder="Número de contacto"
+                          class="form-input">
+                        </div>
+                        @if (lugarForm.get('numeroContacto')?.touched && lugarForm.get('numeroContacto')?.invalid) {
+                          <div class="error-msg">
+                            El número de contacto es requerido.
+                          </div>
+                        }
+
+                        <!-- Botones -->
+                        <div class="form-actions">
+                          <button
+                            type="button"
+                            class="btn btn-cancel"
+                            (click)="onCancel()">
+                            Cancelar
+                          </button>
+                          <button
+                            type="submit"
+                            class="btn btn-primary"
+                            [disabled]="lugarForm.invalid">
+                            Guardar
+                          </button>
+                        </div>
+                      </form>
+                    </div>

@@ -7,14 +7,11 @@
       <input type="text" [(ngModel)]="busqueda" placeholder="Buscar" (input)="filtrar()" />
     </div>
     <div class="acciones-derecha">
-<button class="btn agregar" type="button" (click)="abrirModal()">➕ Agregar lugar?</button>    
-  <button class="btn filtro">
-        ⚙️ Filtro </button>
-    </div>
-    <p style="color: lime; font-weight: bold;">
-  Modal abierto: {{ modalAbierto }}
-</p>
 
+      <button class="btn agregar" type="button" (click)="abrirAgregarLugar()">➕ Agregar lugar</button>
+      <button class="btn filtro">
+      ⚙️ Filtro </button>
+    </div>
   </div>
 
   <table class="tabla-lugares">
@@ -29,20 +26,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let lugar of lugaresFiltrados">
-        <td>{{ lugar.nombre }}</td>
-        <td>{{ lugar.direccion }}</td>
-        <td>{{ lugar.capacidad }}</td>
-        <td>{{ lugar.agencia }}</td>
-        <td>{{ lugar.contacto }}</td>
-        <td>
-          <div class="acciones-fila">
-            <button class="accion-btn ver" title="Ver">👁️</button>
-            <button class="accion-btn editar" title="Editar">✏️</button>
-            <button class="accion-btn eliminar" title="Eliminar">🗑️</button>
-          </div>
-        </td>
-      </tr>
+      @for (lugar of lugaresFiltrados; track lugar) {
+        <tr>
+          <td>{{ lugar.nombre }}</td>
+          <td>{{ lugar.direccion }}</td>
+          <td>{{ lugar.capacidad }}</td>
+          <td>{{ lugar.agencia }}</td>
+          <td>{{ lugar.contacto }}</td>
+          <td>
+            <div class="acciones-fila">
+              <button class="accion-btn ver" title="Ver">👁️</button>
+              <button class="accion-btn editar" title="Editar">✏️</button>
+              <button class="accion-btn eliminar" title="Eliminar">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 
@@ -68,118 +67,132 @@
   </div>
 
   <!-- Modal de formulario -->
-<div class="modal-overlay" *ngIf="modalAbierto">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <p>¿Ves este texto?</p>
-      <div class="modal-header">
-        <h2>✨ Agregar nuevo lugar</h2>
-        <button class="modal-close" (click)="cerrarModal()" type="button">✕</button>
+  @if (modalAbierto) {
+    <div class="modal-overlay">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <p>¿Ves este texto?</p>
+        <div class="modal-header">
+          <h2>✨ Agregar nuevo lugar</h2>
+          <button class="modal-close" (click)="cerrarModal()" type="button">✕</button>
+        </div>
+        <form (ngSubmit)="agregarLugar()" #formulario="ngForm">
+          <div class="form-group">
+            <label for="nombre">Nombre del lugar *</label>
+            <input
+              id="nombre"
+              type="text"
+              placeholder="Ej: Salón de eventos Paradise"
+              [(ngModel)]="nuevoLugar.nombre"
+              name="nombre"
+              required
+              #nombre="ngModel"
+              />
+              @if (nombre.invalid && nombre.touched) {
+                <div class="error-msg">
+                  El nombre es requerido
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="direccion">Dirección *</label>
+              <input
+                id="direccion"
+                type="text"
+                placeholder="Ej: Av. Principal #123, Col. Centro"
+                [(ngModel)]="nuevoLugar.direccion"
+                name="direccion"
+                required
+                #direccion="ngModel"
+                />
+                @if (direccion.invalid && direccion.touched) {
+                  <div class="error-msg">
+                    La dirección es requerida
+                  </div>
+                }
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="capacidad">Capacidad *</label>
+                  <select
+                    id="capacidad"
+                    [(ngModel)]="nuevoLugar.capacidad"
+                    name="capacidad"
+                    required
+                    #capacidad="ngModel"
+                    >
+                    <option value="">Seleccionar...</option>
+                    <option value="1-20">1-20 personas</option>
+                    <option value="21-50">21-50 personas</option>
+                    <option value="51-100">51-100 personas</option>
+                    <option value="101-200">101-200 personas</option>
+                    <option value="200+">Más de 200 personas</option>
+                  </select>
+                  @if (capacidad.invalid && capacidad.touched) {
+                    <div class="error-msg">
+                      Selecciona la capacidad
+                    </div>
+                  }
+                </div>
+                <div class="form-group">
+                  <label for="agencia">Agencia *</label>
+                  <select
+                    id="agencia"
+                    [(ngModel)]="nuevoLugar.agencia"
+                    name="agencia"
+                    required
+                    #agencia="ngModel"
+                    >
+                    <option value="">Seleccionar...</option>
+                    <option value="Agencia Devon">Agencia Devon</option>
+                    <option value="Agencia Premium">Agencia Premium</option>
+                    <option value="Agencia Elite">Agencia Elite</option>
+                    <option value="Otra">Otra agencia</option>
+                  </select>
+                  @if (agencia.invalid && agencia.touched) {
+                    <div class="error-msg">
+                      Selecciona una agencia
+                    </div>
+                  }
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="contacto">Número de contacto *</label>
+                <input
+                  id="contacto"
+                  type="tel"
+                  placeholder="Ej: +52 123 456 7890"
+                  [(ngModel)]="nuevoLugar.contacto"
+                  name="contacto"
+                  required
+                  pattern="[+]?[0-9\s\-\(\)]+"
+                  #contacto="ngModel"
+                  />
+                  @if (contacto.invalid && contacto.touched) {
+                    <div class="error-msg">
+                      @if (contacto.errors?.['required']) {
+                        <span>El contacto es requerido</span>
+                      }
+                      @if (contacto.errors?.['pattern']) {
+                        <span>Formato de teléfono inválido</span>
+                      }
+                    </div>
+                  }
+                </div>
+                <div class="modal-buttons">
+                  <button type="button" class="btn-cancelar" (click)="cerrarModal()">
+                    Cancelar
+                  </button>
+                  <button type="submit" class="btn-guardar" [disabled]="formulario.invalid">
+                    @if (!guardando) {
+                      <span>💾 Guardar lugar</span>
+                    }
+                    @if (guardando) {
+                      <span>⏳ Guardando...</span>
+                    }
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        }
       </div>
-      
-      <form (ngSubmit)="agregarLugar()" #formulario="ngForm">
-        <div class="form-group">
-          <label for="nombre">Nombre del lugar *</label>
-          <input 
-            id="nombre"
-            type="text" 
-            placeholder="Ej: Salón de eventos Paradise" 
-            [(ngModel)]="nuevoLugar.nombre" 
-            name="nombre" 
-            required 
-            #nombre="ngModel"
-          />
-          <div class="error-msg" *ngIf="nombre.invalid && nombre.touched">
-            El nombre es requerido
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="direccion">Dirección *</label>
-          <input 
-            id="direccion"
-            type="text" 
-            placeholder="Ej: Av. Principal #123, Col. Centro" 
-            [(ngModel)]="nuevoLugar.direccion" 
-            name="direccion" 
-            required 
-            #direccion="ngModel"
-          />
-          <div class="error-msg" *ngIf="direccion.invalid && direccion.touched">
-            La dirección es requerida
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="capacidad">Capacidad *</label>
-            <select 
-              id="capacidad"
-              [(ngModel)]="nuevoLugar.capacidad" 
-              name="capacidad" 
-              required
-              #capacidad="ngModel"
-            >
-              <option value="">Seleccionar...</option>
-              <option value="1-20">1-20 personas</option>
-              <option value="21-50">21-50 personas</option>
-              <option value="51-100">51-100 personas</option>
-              <option value="101-200">101-200 personas</option>
-              <option value="200+">Más de 200 personas</option>
-            </select>
-            <div class="error-msg" *ngIf="capacidad.invalid && capacidad.touched">
-              Selecciona la capacidad
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="agencia">Agencia *</label>
-            <select 
-              id="agencia"
-              [(ngModel)]="nuevoLugar.agencia" 
-              name="agencia" 
-              required
-              #agencia="ngModel"
-            >
-              <option value="">Seleccionar...</option>
-              <option value="Agencia Devon">Agencia Devon</option>
-              <option value="Agencia Premium">Agencia Premium</option>
-              <option value="Agencia Elite">Agencia Elite</option>
-              <option value="Otra">Otra agencia</option>
-            </select>
-            <div class="error-msg" *ngIf="agencia.invalid && agencia.touched">
-              Selecciona una agencia
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="contacto">Número de contacto *</label>
-          <input 
-            id="contacto"
-            type="tel" 
-            placeholder="Ej: +52 123 456 7890" 
-            [(ngModel)]="nuevoLugar.contacto" 
-            name="contacto" 
-            required 
-            pattern="[+]?[0-9\s\-\(\)]+"
-            #contacto="ngModel"
-          />
-          <div class="error-msg" *ngIf="contacto.invalid && contacto.touched">
-            <span *ngIf="contacto.errors?.['required']">El contacto es requerido</span>
-            <span *ngIf="contacto.errors?.['pattern']">Formato de teléfono inválido</span>
-          </div>
-        </div>
-
-        <div class="modal-buttons">
-          <button type="button" class="btn-cancelar" (click)="cerrarModal()">
-            Cancelar
-          </button>
-          <button type="submit" class="btn-guardar" [disabled]="formulario.invalid">
-            <span *ngIf="!guardando">💾 Guardar lugar</span>
-            <span *ngIf="guardando">⏳ Guardando...</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
