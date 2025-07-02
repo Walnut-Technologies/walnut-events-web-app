@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { CommonModule } from '@angular/common';
+import { ConfirmModalComponent } from '../../shared/confirm-modal/confirm-modal.component';
 @Component({
+  standalone: true,
   selector: 'app-agregar-lugar',
   templateUrl: './agregar-lugar.component.html',
   styleUrls: ['./agregar-lugar.component.scss'],
-  imports: [ReactiveFormsModule]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ConfirmModalComponent 
+  ]
 })
 export class AgregarLugarComponent {
   lugarForm: FormGroup;
@@ -40,6 +46,22 @@ export class AgregarLugarComponent {
     // Lógica para cancelar y regresar
     console.log('Cancelado');
   }
+
+    direccionFormateada = '';
+    mostrarModal = false;
+
+    validarDireccion() {
+      const direccion = this.lugarForm.get('direccion')?.value || '';
+      // Puedes agregar más campos si quieres
+      this.direccionFormateada = direccion;
+      this.mostrarModal = true;
+    }
+
+    guardarLugar() {
+      this.mostrarModal = false;
+      this.onSubmit(); // o lógica para guardar
+    }
+
 
   private markFormGroupTouched() {
     Object.keys(this.lugarForm.controls).forEach(key => {
