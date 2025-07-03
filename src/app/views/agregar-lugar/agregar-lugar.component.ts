@@ -35,7 +35,6 @@ export class AgregarLugarComponent {
   onSubmit() {
     if (this.lugarForm.valid) {
       console.log('Datos del lugar:', this.lugarForm.value);
-      // Aquí puedes agregar la lógica para enviar los datos al backend
     } else {
       console.log('Formulario inválido');
       this.markFormGroupTouched();
@@ -43,7 +42,6 @@ export class AgregarLugarComponent {
   }
 
   onCancel() {
-    // Lógica para cancelar y regresar
     console.log('Cancelado');
   }
 
@@ -52,14 +50,13 @@ export class AgregarLugarComponent {
 
     validarDireccion() {
       const direccion = this.lugarForm.get('direccion')?.value || '';
-      // Puedes agregar más campos si quieres
       this.direccionFormateada = direccion;
       this.mostrarModal = true;
     }
 
     guardarLugar() {
       this.mostrarModal = false;
-      this.onSubmit(); // o lógica para guardar
+      this.onSubmit(); 
     }
 
 
