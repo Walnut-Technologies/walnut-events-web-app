@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ConfirmModalComponent } from '../../shared/confirm-modal/confirm-modal.component';
+
 @Component({
   standalone: true,
-  selector: 'app-agregar-lugar',
+  selector: 'app-add-place',
   templateUrl: './agregar-lugar.component.html',
   styleUrls: ['./agregar-lugar.component.scss'],
   imports: [
@@ -14,55 +15,54 @@ import { ConfirmModalComponent } from '../../shared/confirm-modal/confirm-modal.
     ConfirmModalComponent 
   ]
 })
-export class AgregarLugarComponent {
-  lugarForm: FormGroup;
+export class AgregarLugarComponent  {
+  placeForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.lugarForm = this.fb.group({
-      nombreLugar: ['', [Validators.required]],
-      direccion: ['', [Validators.required]],
+    this.placeForm = this.fb.group({
+      placeName: ['', [Validators.required]],
+      address: ['', [Validators.required]],
       url: [''],
-      capacidadMinima: ['', [Validators.required, Validators.min(1)]],
-      capacidadMaxima: ['', [Validators.required, Validators.min(1)]],
-      precioRenta: ['', [Validators.required, Validators.min(0)]],
-      numeroHoras: ['', [Validators.required, Validators.min(1)]],
-      tiempoServicio: ['', [Validators.required]],
-      horarioCierre: ['', [Validators.required]],
-      numeroContacto: ['', [Validators.required]]
+      minCapacity: ['', [Validators.required, Validators.min(1)]],
+      maxCapacity: ['', [Validators.required, Validators.min(1)]],
+      rentalPrice: ['', [Validators.required, Validators.min(0)]],
+      numberOfHours: ['', [Validators.required, Validators.min(1)]],
+      serviceTime: ['', [Validators.required]],
+      closingTime: ['', [Validators.required]],
+      contactNumber: ['', [Validators.required]]
     });
   }
 
   onSubmit() {
-    if (this.lugarForm.valid) {
-      console.log('Datos del lugar:', this.lugarForm.value);
+    if (this.placeForm.valid) {
+      console.log('Place data:', this.placeForm.value);
     } else {
-      console.log('Formulario inválido');
+      console.log('Invalid form');
       this.markFormGroupTouched();
     }
   }
 
   onCancel() {
-    console.log('Cancelado');
+    console.log('Cancelled');
   }
 
-    direccionFormateada = '';
-    mostrarModal = false;
+  formattedAddress = '';
+  showModal = false;
 
-    validarDireccion() {
-      const direccion = this.lugarForm.get('direccion')?.value || '';
-      this.direccionFormateada = direccion;
-      this.mostrarModal = true;
-    }
+  validateAddress() {
+    const address = this.placeForm.get('address')?.value || '';
+    this.formattedAddress = address;
+    this.showModal = true;
+  }
 
-    guardarLugar() {
-      this.mostrarModal = false;
-      this.onSubmit(); 
-    }
-
+  savePlace() {
+    this.showModal = false;
+    this.onSubmit(); 
+  }
 
   private markFormGroupTouched() {
-    Object.keys(this.lugarForm.controls).forEach(key => {
-      const control = this.lugarForm.get(key);
+    Object.keys(this.placeForm.controls).forEach(key => {
+      const control = this.placeForm.get(key);
       control?.markAsTouched();
     });
   }

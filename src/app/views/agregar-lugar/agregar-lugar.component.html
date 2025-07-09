@@ -3,17 +3,17 @@
     <h2>Lugares > Agregar nuevo</h2>
   </div>
 
-  <form [formGroup]="lugarForm" (ngSubmit)="validarDireccion()" class="lugar-form form-grid">
+  <form [formGroup]="placeForm" (ngSubmit)="validateAddress()" class="lugar-form form-grid">
 
     <!-- Nombre del lugar -->
     <div class="form-field full-width">
       <input
         type="text"
-        formControlName="nombreLugar"
+        formControlName="placeName"
         placeholder="Nombre del lugar"
         class="form-input">
     </div>
-    <div class="error-msg" *ngIf="lugarForm.get('nombreLugar')?.touched && lugarForm.get('nombreLugar')?.invalid">
+    <div class="error-msg" *ngIf="placeForm.get('placeName')?.touched && placeForm.get('placeName')?.invalid">
       El nombre del lugar es requerido.
     </div>
 
@@ -21,11 +21,11 @@
     <div class="form-field full-width">
       <input
         type="text"
-        formControlName="direccion"
+        formControlName="address"
         placeholder="Dirección"
         class="form-input">
     </div>
-    <div class="error-msg" *ngIf="lugarForm.get('direccion')?.touched && lugarForm.get('direccion')?.invalid">
+    <div class="error-msg" *ngIf="placeForm.get('address')?.touched && placeForm.get('address')?.invalid">
       La dirección es requerida.
     </div>
 
@@ -43,21 +43,21 @@
       <div class="form-field">
         <input
           type="number"
-          formControlName="capacidadMinima"
+          formControlName="minCapacity"
           placeholder="Capacidad mínima"
           class="form-input">
       </div>
       <div class="form-field">
         <input
           type="number"
-          formControlName="capacidadMaxima"
+          formControlName="maxCapacity"
           placeholder="Capacidad máxima"
           class="form-input">
       </div>
       <div class="form-field">
         <input
           type="number"
-          formControlName="precioRenta"
+          formControlName="rentalPrice"
           placeholder="Precio de renta"
           class="form-input">
       </div>
@@ -68,21 +68,21 @@
       <div class="form-field">
         <input
           type="number"
-          formControlName="numeroHoras"
+          formControlName="numberOfHours"
           placeholder="Número de horas"
           class="form-input">
       </div>
       <div class="form-field">
         <input
           type="text"
-          formControlName="tiempoServicio"
+          formControlName="serviceTime"
           placeholder="Tiempo de servicio"
           class="form-input">
       </div>
       <div class="form-field">
         <input
           type="time"
-          formControlName="horarioCierre"
+          formControlName="closingTime"
           placeholder="Horario de cierre"
           class="form-input">
       </div>
@@ -92,11 +92,11 @@
     <div class="form-field half-width">
       <input
         type="tel"
-        formControlName="numeroContacto"
+        formControlName="contactNumber"
         placeholder="Número de contacto"
         class="form-input">
     </div>
-    <div class="error-msg" *ngIf="lugarForm.get('numeroContacto')?.touched && lugarForm.get('numeroContacto')?.invalid">
+    <div class="error-msg" *ngIf="placeForm.get('contactNumber')?.touched && placeForm.get('contactNumber')?.invalid">
       El número de contacto es requerido.
     </div>
 
@@ -111,17 +111,17 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="lugarForm.invalid">
+        [disabled]="placeForm.invalid">
         Guardar
       </button>
     </div>
   </form>
 
-    <!-- Modal de confirmación -->
-    <app-confirm-modal
-      [direccion]="direccionFormateada"
-      [visible]="mostrarModal"
-      (confirmar)="guardarLugar()"
-      (cancelar)="mostrarModal = false">
-    </app-confirm-modal>
-  </div>
+  <!-- Modal de confirmación -->
+  <app-confirm-modal
+    [direccion]="formattedAddress"
+    [visible]="showModal"
+    (confirmar)="savePlace()"
+    (cancelar)="showModal = false">
+  </app-confirm-modal>
+</div>
