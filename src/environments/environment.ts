@@ -2,13 +2,12 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { EnvironmentConfiguration } from '../models/environment-configuration';
-
-const serverUrl = 'https://localhost:44334';
+import { EnvironmentConfiguration } from '../app/models/environment-configuration';
+const serverUrl = 'https://localhost:44334/api';
 
 // The list of file replacements can be found in `angular.json`.
 export const environment: EnvironmentConfiguration = {
-  env_name: 'prod',
+  env_name: 'dev',
   production: true,
   apiUrl: serverUrl,
   apiEndpoints: {
@@ -24,7 +23,7 @@ export const environment: EnvironmentConfiguration = {
       'https://eventsAzureb2c.onmicrosoft.com/dev/eventswalnut/api/Events.Read',
       'https://eventsAzureb2c.onmicrosoft.com/dev/eventswalnut/api/Events.Write',
     ],
-    apiEndpointUrl: 'https://localhost:44334',
+    apiEndpointUrl: 'https://localhost:44334/api',
   },
   cacheTimeInMinutes: 30,
 };
