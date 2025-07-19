@@ -23,7 +23,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { LoginService } from './services/login/login.service';
 import { Claim } from './models/claim';
-import { CreditCardService } from './services/login/credit-card.service';
+import { WeatherService } from './services/login/weather-forecast.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -37,19 +37,19 @@ export class AppComponent implements OnInit, OnDestroy {
   loginDisplay = false;
   private readonly _destroying$ = new Subject<void>();
   claims: Claim[] = [];
+  userName: string | null = null;
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
     private loginService: LoginService,
-    private creditCardService: CreditCardService
+    private weatherService: WeatherService
   ) {}
 
   ngOnInit(): void {
     this.authService.handleRedirectObservable().subscribe();
     // this.isIframe = window !== window.parent && !window.opener; // Remove this line to use Angular Universal
-
     this.setLoginDisplay();
 
     this.authService.instance.enableAccountStorageEvents(); // Optional - This will enable ACCOUNT_ADDED and ACCOUNT_REMOVED events emitted when a user logs in or out of another tab or window
@@ -88,7 +88,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   setLoginDisplay() {
-    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+    const accounts = this.authService.instance.getAllAccounts();
+    this.loginDisplay = accounts.length > 0;
+
+    if (this.loginDisplay && accounts[0]) {
+      const account = accounts[0];
+      const claims = account.idTokenClaims as any;
+
+      this.userName = claims?.name || account.username;
+    } else {
+      this.userName = null;
+    }
   }
 
   checkAndSetActiveAccount() {
@@ -149,9 +159,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this._destroying$.complete();
   }
 
-  getCreditCard() {
-    this.creditCardService
-      .getCreditCards(4)
-      .subscribe((s: any) => console.log('Credit cards', s));
+  getWeather() {
+    this.weatherService
+      .getWeather()
+      .subscribe((s: any) => console.log('weather', s));
   }
 }
