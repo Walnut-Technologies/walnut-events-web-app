@@ -3,125 +3,117 @@
     <h2>Lugares > Agregar nuevo</h2>
   </div>
 
-  <form [formGroup]="placeForm" (ngSubmit)="validateAddress()" class="lugar-form form-grid">
+<form [formGroup]="placeForm" (ngSubmit)="savePlace()" class="lugar-form form-grid">
 
     <!-- Nombre del lugar -->
-    <div class="form-field full-width">
+  <div class="form-field full-width">
+    <input
+      type="text"
+      formControlName="name"
+      placeholder="Nombre del lugar"
+      class="form-input">
+  </div>
+  <div class="error-msg" *ngIf="placeForm.get('name')?.touched && placeForm.get('name')?.invalid">
+    El nombre del lugar es requerido.
+  </div>
+
+  <!-- Dirección -->
+  <div class="form-field full-width">
+    <input
+      type="text"
+      formControlName="address"
+      placeholder="Dirección"
+      class="form-input">
+  </div>
+  <div class="error-msg" *ngIf="placeForm.get('address')?.touched && placeForm.get('address')?.invalid">
+    La dirección es requerida.
+  </div>
+
+  <!-- Fila de 3 campos -->
+  <div class="form-row">
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="minCapacity"
+        placeholder="Capacidad mínima"
+        class="form-input">
+    </div>
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="maxCapacity"
+        placeholder="Capacidad máxima"
+        class="form-input">
+    </div>
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="rentalPrice"
+        placeholder="Precio de renta"
+        class="form-input">
+    </div>
+  </div>
+
+  <!-- Segunda fila de 3 campos -->
+  <div class="form-row">
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="numberOfHours"
+        placeholder="Número de horas"
+        class="form-input">
+    </div>
+    <div class="form-field">
       <input
         type="text"
-        formControlName="placeName"
-        placeholder="Nombre del lugar"
+        formControlName="openingTime"
+        placeholder="Horario de apertura"
         class="form-input">
     </div>
-    <div class="error-msg" *ngIf="placeForm.get('placeName')?.touched && placeForm.get('placeName')?.invalid">
-      El nombre del lugar es requerido.
-    </div>
-
-    <!-- Dirección -->
-    <div class="form-field full-width">
+    <div class="form-field">
       <input
-        type="text"
-        formControlName="address"
-        placeholder="Dirección"
+        type="time"
+        formControlName="closingTime"
+        placeholder="Horario de cierre"
         class="form-input">
     </div>
-    <div class="error-msg" *ngIf="placeForm.get('address')?.touched && placeForm.get('address')?.invalid">
-      La dirección es requerida.
-    </div>
+  </div>
 
-    <!-- URL -->
-    <div class="form-field full-width">
-      <input
-        type="url"
-        formControlName="url"
-        placeholder="URL"
-        class="form-input">
-    </div>
+  <!-- Número de contacto -->
+  <div class="form-field half-width">
+    <input
+      type="tel"
+      formControlName="contactPhone"
+      placeholder="Número de contacto"
+      class="form-input">
+  </div>
+  <div class="error-msg" *ngIf="placeForm.get('contactPhone')?.touched && placeForm.get('contactPhone')?.invalid">
+    El número de contacto es requerido.
+  </div>
 
-    <!-- Fila de 3 campos -->
-    <div class="form-row">
-      <div class="form-field">
-        <input
-          type="number"
-          formControlName="minCapacity"
-          placeholder="Capacidad mínima"
-          class="form-input">
-      </div>
-      <div class="form-field">
-        <input
-          type="number"
-          formControlName="maxCapacity"
-          placeholder="Capacidad máxima"
-          class="form-input">
-      </div>
-      <div class="form-field">
-        <input
-          type="number"
-          formControlName="rentalPrice"
-          placeholder="Precio de renta"
-          class="form-input">
-      </div>
-    </div>
+  <!-- Botones -->
+  <div class="form-actions" *ngIf="mode !== 'view'">
+  <button
+    type="button"
+    class="btn btn-cancel"
+    (click)="cancel()">
+    Cancelar
+  </button>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="placeForm.invalid">
+    Guardar
+  </button>
+</div>
 
-    <!-- Segunda fila de 3 campos -->
-    <div class="form-row">
-      <div class="form-field">
-        <input
-          type="number"
-          formControlName="numberOfHours"
-          placeholder="Número de horas"
-          class="form-input">
-      </div>
-      <div class="form-field">
-        <input
-          type="text"
-          formControlName="serviceTime"
-          placeholder="Tiempo de servicio"
-          class="form-input">
-      </div>
-      <div class="form-field">
-        <input
-          type="time"
-          formControlName="closingTime"
-          placeholder="Horario de cierre"
-          class="form-input">
-      </div>
-    </div>
+</form>
 
-    <!-- Número de contacto -->
-    <div class="form-field half-width">
-      <input
-        type="tel"
-        formControlName="contactNumber"
-        placeholder="Número de contacto"
-        class="form-input">
-    </div>
-    <div class="error-msg" *ngIf="placeForm.get('contactNumber')?.touched && placeForm.get('contactNumber')?.invalid">
-      El número de contacto es requerido.
-    </div>
-
-    <!-- Botones -->
-    <div class="form-actions">
-      <button
-        type="button"
-        class="btn btn-cancel"
-        (click)="onCancel()">
-        Cancelar
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="placeForm.invalid">
-        Guardar
-      </button>
-    </div>
-  </form>
-
-  <!-- Modal de confirmación -->
-  <app-confirm-modal
-    [direccion]="formattedAddress"
-    [visible]="showModal"
-    (confirmar)="savePlace()"
-    (cancelar)="showModal = false">
-  </app-confirm-modal>
+<!-- Modal de confirmación -->
+<app-confirm-modal
+  [direccion]="placeForm.get('address')?.value"
+  [visible]="showModal"
+  (confirmar)="savePlace()"
+  (cancelar)="showModal = false">
+</app-confirm-modal>
 </div>

@@ -3,13 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 import { EnvironmentConfiguration } from '../models/environment-configuration';
-const serverUrl = 'https://localhost:44334';
+const serverUrl = 'https://invitemx.azurewebsites.net/api';
 
 // The list of file replacements can be found in `angular.json`.
 export const environment: EnvironmentConfiguration = {
   env_name: 'dev',
-  production: true,
-  apiUrl: serverUrl,
+  production: false,
+  apiUrl: 'https://invitemx.azurewebsites.net/api',
   apiEndpoints: {
     userProfile: 'user-profiles',
   },

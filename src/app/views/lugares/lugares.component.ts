@@ -1,22 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LugarService } from '../../services/lugar.service';
+import { CommonModule } from '@angular/common';
+import { Venue } from '../../models/lugar.model';
 
-interface Lugar {
-  nombre: string;
-  direccion: string;
-  capacidad: string;
-  agencia: string;
-  contacto: string;
-}
 
 @Component({
   standalone: true,
   selector: 'app-lugares',
   templateUrl: './lugares.component.html',
   styleUrls: ['./lugares.component.scss'],
-  imports: [FormsModule]
+  imports: [FormsModule, CommonModule],
+
 })
 export class LugaresComponent implements OnInit {
   busqueda = '';
@@ -24,40 +20,81 @@ export class LugaresComponent implements OnInit {
   modalAbierto = false;
   guardando = false;
 
-  nuevoLugar: Lugar = {
-    nombre: '',
-    direccion: '',
-    capacidad: '',
-    agencia: '',
-    contacto: ''
-  };
+  nuevoLugar: Venue = {
+  name: '',
+  registrationDate: '',
+  address: '',
+  latitude: 0,
+  longitude: 0,
+  minCapacity: 1,
+  maxCapacity: 1,
+  rentalPrice: 0,
+  numberOfHours: 1,
+  contactPhone: '',
+  openingTime: '',
+  closingTime: ''
+};
 
-  lugares: Lugar[] = [
-    { nombre: 'Arboleda Susurrante', direccion: 'Patricio Sáinz 14, Col. Del Valle', capacidad: '10-50', agencia: 'Agencia Devon', contacto: '+526290537862' },
-    { nombre: 'Cascadas Carmesí', direccion: 'AV LOPEZ PORTILLO SN', capacidad: '10-50', agencia: 'Agencia Devon', contacto: '663 406 4625' },
-    { nombre: 'Festive Flair Events', direccion: 'Patricio Sáinz 14, Col. Del Valle', capacidad: '10-50', agencia: 'Agencia Devon', contacto: '+529165417785' },
-    { nombre: 'Grand Event', direccion: '16 DE SEPBRE NO. 513 S/N', capacidad: '10-50', agencia: 'Agencia Devon', contacto: '+525889690040' },
-    { nombre: 'Celebration Strands', direccion: 'AV MORELOS SUR NO. 114', capacidad: '10-50', agencia: 'Agencia Devon', contacto: '315 799 5554' },
-    { nombre: 'The After Party Blowout', direccion: 'FRAY SERVANDO T DE MIER SN', capacidad: '10-50', agencia: 'Agencia Devon', contacto: '588 482 3639' }
-  ];
 
-  lugaresFiltrados: Lugar[] = [];
+  lugares: Venue[] = [];
+  lugaresFiltrados: Venue[] = [];
+  lugarAEliminar: Venue | null = null;
+  mostrarModalEliminar = false;
 
-  constructor(private router: Router) {}
 
+  constructor(private router: Router, private lugarService: LugarService) {}
 
   ngOnInit(): void {
-    this.lugaresFiltrados = this.lugares;
+    this.cargarLugares();
   }
 
-  filtrar(): void {
-    const query = this.busqueda.toLowerCase();
-    this.lugaresFiltrados = this.lugares.filter(lugar =>
-      lugar.nombre.toLowerCase().includes(query) ||
-      lugar.direccion.toLowerCase().includes(query) ||
-      lugar.agencia.toLowerCase().includes(query)
-    );
+cargarLugares(): void {
+  this.lugarService.getLugares().subscribe({
+    next: (lugares: Venue[]) => {
+      console.log('Lugares recibidos del backend:', lugares); // 👈 LOG
+      this.lugares = lugares;
+      this.filtrar();
+    },
+    error: (err: any) => {
+      console.error('Error al cargar lugares:', err);
+    }
+  });
+}
+
+ abrirModalEliminar(lugar: Venue) {
+    this.lugarAEliminar = lugar;
+    this.mostrarModalEliminar = true;
   }
+
+  confirmarEliminar() {
+    if (this.lugarAEliminar && this.lugarAEliminar.id) {
+      this.lugarService.deleteLugar(this.lugarAEliminar.id).subscribe({
+        next: () => {
+          this.cargarLugares();
+          this.mostrarModalEliminar = false;
+          this.lugarAEliminar = null;
+        },
+        error: () => {
+          alert('Error al eliminar');
+          this.mostrarModalEliminar = false;
+        }
+      });
+    }
+  }
+
+  cancelarEliminar() {
+    this.mostrarModalEliminar = false;
+    this.lugarAEliminar = null;
+  }
+  
+filtrar(): void {
+  const query = this.busqueda?.toLowerCase() || '';
+  this.lugaresFiltrados = this.lugares.filter(lugar =>
+    lugar.name.toLowerCase().includes(query) ||
+    lugar.address.toLowerCase().includes(query)
+  );
+}
+
   abrirModal(): void {
     console.log('Se presionó el botón');
     this.modalAbierto = true;
@@ -69,84 +106,85 @@ export class LugaresComponent implements OnInit {
   }
 
   cerrarModalSiClickFuera(event: Event): void {
-    // Solo cerrar si se hace click en el overlay, no en el modal
     if (event.target === event.currentTarget) {
       this.cerrarModal();
     }  
   }
 
-  resetearFormulario(): void {
-    this.nuevoLugar = {
-      nombre: '',
-      direccion: '',
-      capacidad: '',
-      agencia: '',
-      contacto: ''
-    };
-  }
+resetearFormulario(): void {
+  this.nuevoLugar = {
+    name: '',
+    registrationDate: '',
+    address: '',
+    latitude: 0,
+    longitude: 0,
+    minCapacity: 1,
+    maxCapacity: 1,
+    rentalPrice: 0,
+    numberOfHours: 1,
+    contactPhone: '',
+    openingTime: '',
+    closingTime: ''
+  };
+}
 
-  async agregarLugar(): Promise<void> {
-    if (this.validarFormulario()) {
-      this.guardando = true;
-      
-      try {
-        // Simular una llamada API
-        await this.delay(1500);
-        
-        // Agregar el nuevo lugar
-        this.lugares.push({ ...this.nuevoLugar });
-        this.filtrar(); // Actualizar la lista filtrada
-        
-        // Mostrar mensaje de éxito (opcional)
-        console.log('Lugar agregado exitosamente:', this.nuevoLugar);
-        
-        // Cerrar modal
+async agregarLugar(): Promise<void> {
+  if (this.validarFormulario()) {
+    this.guardando = true;
+
+    const venue: Venue = {
+      ...this.nuevoLugar,
+      registrationDate: new Date().toISOString()
+    };
+
+    this.lugarService.createLugar(venue).subscribe({
+      next: () => {
+        this.cargarLugares();
         this.cerrarModal();
-        
-      } catch (error) {
-        console.error('Error al agregar lugar:', error);
+      },
+      error: () => {
         this.guardando = false;
       }
-    }
+    });
   }
+}
 
   private validarFormulario(): boolean {
-    return !!(
-      this.nuevoLugar.nombre?.trim() &&
-      this.nuevoLugar.direccion?.trim() &&
-      this.nuevoLugar.capacidad &&
-      this.nuevoLugar.agencia &&
-      this.nuevoLugar.contacto?.trim()
-    );
-  }
+  return !!(
+    this.nuevoLugar.name?.trim() &&
+    this.nuevoLugar.address?.trim() &&
+    this.nuevoLugar.minCapacity &&
+    this.nuevoLugar.maxCapacity &&
+    this.nuevoLugar.rentalPrice >= 0 &&
+    this.nuevoLugar.contactPhone?.trim()
+  );
+}
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // Funciones para los botones de acción (por implementar)
-  verLugar(lugar: Lugar): void {
-    console.log('Ver lugar:', lugar);
-    // Aquí puedes implementar la lógica para ver detalles
-  }
+verPlace(id: string | undefined) {
+  if (!id) return;
+  this.router.navigate(['/lugares/ver', id]);
+}
 
-  editarLugar(lugar: Lugar): void {
-    console.log('Editar lugar:', lugar);
-    // Aquí puedes implementar la lógica para editar
-  }
+  editPlace(id: string | undefined) {
+  if (!id) return;
+  this.router.navigate(['/lugares/editar', id]);
+}
 
-  eliminarLugar(lugar: Lugar): void {
-    console.log('Eliminar lugar:', lugar);
-    if (confirm(`¿Estás seguro de que quieres eliminar "${lugar.nombre}"?`)) {
-      const index = this.lugares.findIndex(l => l === lugar);
-      if (index > -1) {
-        this.lugares.splice(index, 1);
-        this.filtrar();
-      }
+eliminarLugar(lugar: Venue): void {
+  const confirmado = window.confirm(`¿Estás seguro de eliminar "${lugar.name}"?`);
+  if (confirmado) {
+    const index = this.lugares.findIndex(l => l.id === lugar.id);
+    if (index > -1) {
+      this.lugares.splice(index, 1);
+      this.filtrar();
+      alert('Lugar eliminado exitosamente');
     }
   }
+}
 
-  abrirAgregarLugar() {
-    this.router.navigate(['/lugares/agregar']);
-  }
+  
 }
