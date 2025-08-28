@@ -21,7 +21,10 @@ export const routes: Routes = [
       // { path: 'lugares', component: LugaresComponent },
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'events', component: EventsComponent},
-      { path: 'agencies', component: AgenciesListComponent}
+      { 
+        path: 'agencies', 
+        loadChildren: () => import('./modules/agencies/agencies.module').then(m => m.AgenciesModule) 
+      }
     ]
   }
 ];

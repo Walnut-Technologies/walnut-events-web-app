@@ -1,0 +1,27 @@
+<div class="form-container">
+  <div class="tabs">
+    <button (click)="tab = 0" [class.active]="tab === 0">Información agencia</button>
+    <button (click)="tab = 1" [class.active]="tab === 1">Información de acceso</button>
+  </div>
+
+  <form *ngIf="tab === 0" (ngSubmit)="goToAccessTab()" [formGroup]="agencyForm">
+  <!-- Aquí pon los inputs por ejemplo -->
+  <input formControlName="name" placeholder="Nombre de agencia" />
+  <input formControlName="phone" placeholder="Teléfono" />
+  <input formControlName="email" placeholder="Email" />
+  <input formControlName="address" placeholder="Dirección" />
+  <button type="button" (click)="cancel()">Cancelar</button>
+  <button type="submit">Siguiente</button>
+</form>
+
+<form *ngIf="tab === 1" (ngSubmit)="save()" [formGroup]="accessForm">
+  <input formControlName="email" placeholder="Email acceso" />
+  <input type="password" formControlName="password" placeholder="Contraseña" />
+  <input type="password" formControlName="confirmPassword" placeholder="Confirmar contraseña" />
+  <label>
+    <input type="checkbox" formControlName="status" /> Estatus activo
+  </label>
+  <button type="button" (click)="tab = 0">Cancelar</button>
+  <button type="submit">Guardar</button>
+</form>
+</div>
