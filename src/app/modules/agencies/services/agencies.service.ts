@@ -34,4 +34,20 @@ export class AgenciesService {
         return [];
       }
     }
+
+    async addAgency(agency: Agency): Promise<any> {
+        try {
+          const response = await firstValueFrom(
+            this.http.post<Response<Agency>>(
+              `${environmentURL._URL_AGENCIES}`,
+              agency,
+              { headers: this.httpHeaders, withCredentials: false }
+            )
+          );
+          return response;
+        } catch (error) {
+          console.error('Error adding agency:', error);
+          throw error;
+        }
+  }
 }

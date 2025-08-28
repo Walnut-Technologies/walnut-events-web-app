@@ -8,11 +8,12 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-agencies-list',
   imports: [MatFormFieldModule, MatInputModule, FormsModule, MatTableModule, MatPaginatorModule, 
-      CommonModule, MatSortModule],
+      CommonModule, MatSortModule,RouterModule],
   templateUrl: './agencies-list.component.html',
   styleUrl: './agencies-list.component.scss'
 })
