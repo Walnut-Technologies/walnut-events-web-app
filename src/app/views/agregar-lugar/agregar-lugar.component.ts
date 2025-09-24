@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,10 @@ export class AgregarLugarComponent implements OnInit {
   mode: 'create' | 'edit' | 'view' = 'create';
   placeId: string | null = null;
   showModal = false;
+  showDeleteModal = false;
+
+  @Output() close = new EventEmitter<void>();
+  @Output() saved = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -96,8 +100,12 @@ export class AgregarLugarComponent implements OnInit {
     }
   }
 
-  confirmDelete(): void {
-    this.showModal = true;
+  openDeleteModal(): void {
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
   }
 
   deletePlace(): void {
@@ -110,7 +118,7 @@ export class AgregarLugarComponent implements OnInit {
         error: () => alert('Error al eliminar')
       });
     }
-    this.showModal = false;
+    this.closeDeleteModal();
   }
 
   cancel(): void {
