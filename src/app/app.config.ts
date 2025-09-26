@@ -41,6 +41,8 @@ import {
 } from '@azure/msal-angular';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { environment } from './environments/environment';
+import { CustomPaginatorIntl } from './core/services/custom-paginator/custom-paginator-intl.service';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
   console.log(message);
@@ -144,6 +146,7 @@ export const appConfig: ApplicationConfig = {
       provide: MSAL_INTERCEPTOR_CONFIG,
       useFactory: MSALInterceptorConfigFactory,
     },
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl },
     MsalService,
     MsalGuard,
     MsalBroadcastService,

@@ -9,6 +9,8 @@ import { HomeComponent } from './views/home/home.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LugaresComponent } from './views/lugares/lugares.component';
 import { AgregarLugarComponent } from './views/agregar-lugar/agregar-lugar.component';
+import { EventsComponent } from './modules/events/views/events/events.component';
+import { AgenciesListComponent } from './modules/agencies/views/agencies-list/agencies-list.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,9 +24,21 @@ export const routes: Routes = [
       // { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { roles: ['admin'] } },
       { path: 'lugares/agregar', component: AgregarLugarComponent },
       { path: 'lugares', component: LugaresComponent },
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'lugares/editar/:id', component: AgregarLugarComponent },
       { path: 'lugares/ver/:id', component: AgregarLugarComponent }
+
+      // { path: 'clientes', component: ClientesComponent },
+      // { path: 'eventos', component: EventosComponent },
+      // { path: 'mensajes', component: MensajesComponent },
+      // { path: 'invitaciones', component: InvitacionesComponent },
+      // { path: 'lugares', component: LugaresComponent },
+      { path: 'events', component: EventsComponent},
+      { 
+        path: 'agencies', 
+        loadChildren: () => import('./modules/agencies/agencies.module').then(m => m.AgenciesModule) 
+      },
+        { path: '', redirectTo: '/home', pathMatch: 'full' }
+
     ]
   },
   // Ruta para acceso denegado
