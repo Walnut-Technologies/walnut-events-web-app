@@ -1,0 +1,137 @@
+<div class="form-container agregar-lugar-container">
+  <div class="header">
+    <h2 *ngIf="mode === 'create'">Lugares > Agregar nuevo</h2>
+    <h2 *ngIf="mode === 'edit'">Lugares > Editar</h2>
+    <h2 *ngIf="mode === 'view'">Lugares > Detalles</h2>
+  </div>
+
+<form [formGroup]="placeForm" (ngSubmit)="savePlace()" class="lugar-form form-grid">
+
+    <!-- Nombre del lugar -->
+  <div class="form-field full-width">
+    <input
+      type="text"
+      formControlName="name"
+      placeholder="Nombre del lugar"
+      class="form-input"
+      [readonly]="mode === 'view'">
+  </div>
+  <div class="error-msg" *ngIf="placeForm.get('name')?.touched && placeForm.get('name')?.invalid">
+    El nombre del lugar es requerido.
+  </div>
+
+  <!-- Dirección -->
+  <div class="form-field full-width">
+    <input
+      type="text"
+      formControlName="address"
+      placeholder="Dirección"
+      class="form-input"
+      [readonly]="mode === 'view'">
+  </div>
+  <div class="error-msg" *ngIf="placeForm.get('address')?.touched && placeForm.get('address')?.invalid">
+    La dirección es requerida.
+  </div>
+
+  <!-- Fila de 3 campos -->
+  <div class="form-row">
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="minCapacity"
+        placeholder="Capacidad mínima"
+        class="form-input"
+        [readonly]="mode === 'view'">
+    </div>
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="maxCapacity"
+        placeholder="Capacidad máxima"
+        class="form-input"
+        [readonly]="mode === 'view'">
+    </div>
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="rentalPrice"
+        placeholder="Precio de renta"
+        class="form-input"
+        [readonly]="mode === 'view'">
+    </div>
+  </div>
+
+  <!-- Segunda fila de 3 campos -->
+  <div class="form-row">
+    <div class="form-field">
+      <input
+        type="number"
+        formControlName="numberOfHours"
+        placeholder="Número de horas"
+        class="form-input"
+        [readonly]="mode === 'view'">
+    </div>
+    <div class="form-field">
+      <input
+        type="text"
+        formControlName="openingTime"
+        placeholder="Horario de apertura"
+        class="form-input"
+        [readonly]="mode === 'view'">
+    </div>
+    <div class="form-field">
+      <input
+        type="time"
+        formControlName="closingTime"
+        placeholder="Horario de cierre"
+        class="form-input"
+        [readonly]="mode === 'view'">
+    </div>
+  </div>
+
+  <!-- Número de contacto -->
+  <div class="form-field half-width">
+    <input
+      type="tel"
+      formControlName="contactPhone"
+      placeholder="Número de contacto"
+      class="form-input"
+      [readonly]="mode === 'view'">
+  </div>
+  <div class="error-msg" *ngIf="placeForm.get('contactPhone')?.touched && placeForm.get('contactPhone')?.invalid">
+    El número de contacto es requerido.
+  </div>
+
+  <!-- Botones -->
+  <div class="form-actions" *ngIf="mode !== 'view'">
+    <button
+      type="button"
+      class="btn btn-cancel"
+      (click)="cancel()">
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="placeForm.invalid">
+      Guardar
+    </button>
+    <button
+      *ngIf="mode === 'edit'"
+      type="button"
+      class="btn btn-danger"
+      (click)="openDeleteModal()">
+      Eliminar
+    </button>
+  </div>
+
+</form>
+
+<!-- Modal de confirmación de borrado -->
+<app-confirm-modal
+  [direccion]="placeForm.get('address')?.value"
+  [visible]="showDeleteModal"
+  (confirmar)="deletePlace()"
+  (cancelar)="closeDeleteModal()">
+</app-confirm-modal>
+</div>

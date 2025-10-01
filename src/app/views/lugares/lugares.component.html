@@ -1,0 +1,88 @@
+<div class="lugares-container">
+  <h2>Lugares</h2>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div class="acciones">
+    <div class="buscador">
+      <span class="icon">🔍</span>
+      <input type="text" [(ngModel)]="busqueda" placeholder="Buscar" (input)="filtrar()" />
+    </div>
+    <div class="acciones-derecha">
+      <button class="btn agregar" type="button" (click)="abrirModal()">➕ Agregar lugar</button>
+      <button class="btn filtro">⚙️ Filtro</button>
+    </div>
+  </div>
+  <table class="tabla-lugares">
+    <thead>
+      <tr>
+        <th>Nombre del lugar</th>
+        <th>Dirección</th>
+        <th>Capacidad</th>
+        <th>Precio</th>
+        <th>Num de Contacto</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let lugar of lugaresFiltrados">
+        <td>{{ lugar.name }}</td>
+        <td>{{ lugar.address }}</td>
+        <td>{{ lugar.minCapacity }} - {{ lugar.maxCapacity }}</td>
+        <td>{{ lugar.rentalPrice }}</td>
+        <td>{{ lugar.contactPhone }}</td>
+        <td>
+          <div class="acciones-fila">
+            <button class="accion-btn ver" title="Ver" (click)="verPlace(lugar.id)">👁️</button>
+            <button class="accion-btn editar" title="Editar" (click)="editPlace(lugar.id)">✏️</button>
+            <button class="accion-btn eliminar" title="Eliminar" (click)="abrirModalEliminar(lugar)">🗑️</button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="lugaresFiltrados.length === 0">
+        <td colspan="6">No hay lugares para mostrar.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="paginacion">
+    <div class="paginacion-info">
+      <span>Ver</span>
+      <select [(ngModel)]="itemsPorPagina">
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+      </select>
+    </div>
+    <div class="registros-info">
+      1 a {{ lugaresFiltrados.length }} de {{ lugares.length }} registros
+    </div>
+    <div class="paginas">
+      <span class="pagina activa">1</span>
+      <span class="pagina">2</span>
+      <span class="pagina">3</span>
+      <span class="pagina">4</span>
+      <span class="pagina">></span>
+    </div>
+  </div>
+  <!-- Modal agregar lugar -->
+  <div *ngIf="modalAbierto" class="modal-backdrop" (click)="cerrarModalSiClickFuera($event)">
+    <div class="modal-content">
+      <h3>Agregar lugar</h3>
+      <form (ngSubmit)="agregarLugar()">
+        <input [(ngModel)]="nuevoLugar.name" name="name" placeholder="Nombre" required />
+        <input [(ngModel)]="nuevoLugar.address" name="address" placeholder="Dirección" required />
+        <input [(ngModel)]="nuevoLugar.minCapacity" name="minCapacity" type="number" placeholder="Capacidad mínima" required />
+        <input [(ngModel)]="nuevoLugar.maxCapacity" name="maxCapacity" type="number" placeholder="Capacidad máxima" required />
+        <input [(ngModel)]="nuevoLugar.rentalPrice" name="rentalPrice" type="number" placeholder="Precio" required />
+        <input [(ngModel)]="nuevoLugar.contactPhone" name="contactPhone" placeholder="Teléfono" required />
+        <button type="submit" [disabled]="guardando">Guardar</button>
+        <button type="button" (click)="cerrarModal()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+  <!-- Modal eliminar lugar -->
+  <div *ngIf="mostrarModalEliminar" class="modal-backdrop">
+    <div class="modal-content">
+      <h3>¿Está seguro de borrar este lugar?</h3>
+      <p>{{ lugarAEliminar?.name }}</p>
+      <button (click)="confirmarEliminar()">Sí, borrar</button>
+      <button (click)="cancelarEliminar()">Cancelar</button>
+    </div>

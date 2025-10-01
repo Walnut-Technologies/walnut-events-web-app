@@ -20,14 +20,14 @@ import {
 } from '@azure/msal-browser';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+
 import { LoginService } from './services/login/login.service';
 import { Claim } from './models/claim';
 import { CreditCardService } from './services/login/credit-card.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MsalModule],
+  imports: [RouterOutlet, MsalModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

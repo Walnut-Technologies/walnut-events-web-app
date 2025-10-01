@@ -1,0 +1,12 @@
+<div class="modal-backdrop" *ngIf="visible">
+  <div class="modal-content">
+    <button class="close-btn" (click)="onCancelar()">×</button>
+    <p><strong>La dirección</strong> <span class="highlight">{{ direccion }}</span></p>
+    <h3>¿Es correcta?</h3>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="onCancelar()">No</button>
+      <button class="btn-confirm" (click)="onConfirmar()">Sí, guardar lugar</button>
+    </div>
+  </div>
+</div>
+

@@ -1,25 +1,27 @@
 <div class="layout-container">
-    <!-- Menú lateral -->
-    <nav class="sidebar">
-      <h2>🧠 Events</h2>
-      <a href="#" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
-      <a href="/agencies"><i class="fas fa-shopping-cart"></i> Clientes/Agencias</a>
-      <a href="/events"><i class="fas fa-calendar-alt"></i> Eventos</a>
-      <a href="#"><i class="fas fa-comment"></i> Mensajes <span class="badge">3</span></a>
-      <a href="#"><i class="fas fa-envelope"></i> Invitaciones</a>
-      <a href="#"><i class="fas fa-map-marker-alt"></i> Lugares</a>
-    </nav>
-  
-    <!-- Contenido principal -->
-    <div class="main-content">
-      <header class="navbar">
-        <h1>Buen día, <strong>Aaron</strong></h1>
-        <div class="user-profile">
-          <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="Usuario" />
-        </div>
-      </header>
-  
-      <router-outlet></router-outlet>
-    </div>
+  <nav class="sidebar" *ngIf="isLoggedIn()">
+    <h2>🧠 Events</h2>
+    <a routerLink="/home"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <a routerLink="/clientes" *ngIf="roles().includes('admin')">
+      <i class="fas fa-shopping-cart"></i> Clientes/Agencias
+    </a>
+    <a routerLink="/eventos"><i class="fas fa-calendar-alt"></i> Eventos</a>
+    <a routerLink="/mensajes">
+      <i class="fas fa-comment"></i> Mensajes <span class="badge">3</span>
+    </a>
+    <a routerLink="/invitaciones"><i class="fas fa-envelope"></i> Invitaciones</a>
+    <a routerLink="/lugares"><i class="fas fa-map-marker-alt"></i> Lugares</a>
+    <button (click)="logout()" style="margin-top:2rem;">Cerrar sesión</button>
+  </nav>
+
+  <div class="main-content">
+    <header class="navbar" *ngIf="isLoggedIn()">
+      <h1>Buen día, <strong>{{ userName }}</strong></h1>
+      <div class="user-profile">
+        <img src="assets/user-icon.png" alt="Usuario" />
+      </div>
+    </header>
+
+    <router-outlet></router-outlet>
   </div>
-  
+</div>
