@@ -1,0 +1,60 @@
+<div class="venues-container">
+  
+    <div class="table-container">
+      <div class="table-header">
+        <div class="search-bar">
+          <input type="text" placeholder="Buscar" />
+          <button class="filter-button">
+            <i class="icon-filter"></i> Filtro
+          </button>
+        </div>
+        <button class="add-button">
+          <i class="icon-add"></i> Agregar lugar?
+        </button>
+      </div>
+  
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre del lugar</th>
+            <th>Dirección</th>
+            <th>Capacidad</th>
+            <th>Agencia</th>
+            <th>Num de Contacto</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let venue of venues">
+            <td>{{ venue.name }}</td>
+            <td>{{ venue.address }}</td>
+            <td>{{ venue.capacity }}</td>
+            <td>{{ venue.agency }}</td>
+            <td>{{ venue.contact }}</td>
+            <td>
+              <button class="edit-button"><i class="icon-edit"></i></button>
+              <button class="delete-button"><i class="icon-delete"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="pagination">
+        <span>Ver</span>
+        <select>
+          <option>10</option>
+          <option>20</option>
+          <option>50</option>
+        </select>
+        <span>1 a 10 de 60 registros</span>
+        <div class="pagination-controls">
+          <button>&lt;</button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>4</button>
+          <button>&gt;</button>
+        </div>
+      </div>
+    </div>
+  </div>

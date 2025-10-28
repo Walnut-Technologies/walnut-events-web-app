@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 import { LayoutComponent } from './layout/layout.component';
+import { VenuesComponent } from './views/venues/venues.component';
 import { LugaresComponent } from './views/lugares/lugares.component';
 import { AgregarLugarComponent } from './views/agregar-lugar/agregar-lugar.component';
 import { EventsComponent } from './modules/events/views/events/events.component';
@@ -31,7 +32,7 @@ export const routes: Routes = [
       // { path: 'eventos', component: EventosComponent },
       // { path: 'mensajes', component: MensajesComponent },
       // { path: 'invitaciones', component: InvitacionesComponent },
-      // { path: 'lugares', component: LugaresComponent },
+      { path: 'lugares', component: VenuesComponent },
       { path: 'events', component: EventsComponent},
       { 
         path: 'agencies', 
